@@ -1,0 +1,97 @@
+/**
+ * critique - Domain Constants
+ *
+ * Centralized, immutable definitions for AI models, fallback cascade,
+ * standards discovery order, severities, confidence levels, verdict tokens,
+ * HTTP status codes, and thresholds.
+ * Zero magic strings/numbers across the entire codebase.
+ */
+export declare const MODEL_GEMINI_3_5_FLASH_LITE: "gemini-3.5-flash-lite";
+export declare const MODEL_GEMINI_3_5_FLASH: "gemini-3.5-flash";
+export declare const MODEL_GEMINI_2_5_FLASH: "gemini-2.5-flash";
+export declare const MODEL_GEMINI_2_5_PRO: "gemini-2.5-pro";
+export declare const AI_REVIEWER_MODELS: readonly ["gemini-3.5-flash-lite", "gemini-3.5-flash", "gemini-2.5-flash", "gemini-2.5-pro"];
+export type AiReviewerModel = typeof AI_REVIEWER_MODELS[number];
+export declare const MODEL_COPILOT_GPT_4O: "gpt-4o";
+export declare const COPILOT_API_URL: "https://models.inference.ai.azure.com/chat/completions";
+export declare const GEMINI_API_BASE_URL: "https://generativelanguage.googleapis.com/v1beta/models";
+export declare const AI_REVIEWER_DEFAULT_TEMPERATURE: 0.1;
+export declare const AI_REVIEWER_DEFAULT_MIME_TYPE: "application/json";
+export declare const AI_REVIEWER_DEFAULT_TIMEOUT_MS: 60000;
+export declare const AI_REVIEWER_RETRY_DELAY_MS: 2000;
+export declare const AI_REVIEWER_MAX_DIFF_CHARS: 120000;
+export declare const AI_REVIEWER_MAX_PR_DIFF_CHARS: 3000000;
+export declare const HTTP_STATUS_OK: 200;
+export declare const HTTP_STATUS_TOO_MANY_REQUESTS: 429;
+export declare const HTTP_STATUS_SERVICE_UNAVAILABLE: 503;
+export declare const STANDARD_CANDIDATE_PATHS: readonly [".github/critique.md", ".critique.md", ".github/ai-reviewer-standards.md", "AGENTS.md", "STANDARDS.md", "CONTRIBUTING.md"];
+export declare const CONFIDENCE_HIGH: "High";
+export declare const CONFIDENCE_MEDIUM: "Medium";
+export declare const CONFIDENCE_LOW: "Low";
+export declare const REVIEW_CONFIDENCE_LEVELS: readonly ["High", "Medium", "Low"];
+export type ReviewConfidenceLevel = typeof REVIEW_CONFIDENCE_LEVELS[number];
+export declare const SEVERITY_CRITICAL: "critical";
+export declare const SEVERITY_ERROR: "error";
+export declare const SEVERITY_WARNING: "warning";
+export declare const SEVERITY_SUGGESTION: "suggestion";
+export declare const SEVERITY_INFO: "info";
+export declare const REVIEW_SEVERITIES: readonly ["critical", "error", "warning", "suggestion", "info"];
+export type ReviewSeverity = typeof REVIEW_SEVERITIES[number];
+export declare const SEVERITY_ICON_CRITICAL: "\uD83D\uDD34";
+export declare const SEVERITY_ICON_ERROR: "\uD83D\uDD34";
+export declare const SEVERITY_ICON_WARNING: "\u26A0\uFE0F";
+export declare const SEVERITY_ICON_SUGGESTION: "\uD83D\uDCA1";
+export declare const SEVERITY_ICON_INFO: "\u2139\uFE0F";
+export declare const SEVERITY_ICONS: Readonly<Record<ReviewSeverity, string>>;
+export declare const SEVERITY_HEADERS: Readonly<Record<ReviewSeverity, string>>;
+export declare const VERDICT_APPROVED: "APPROVED";
+export declare const VERDICT_CHANGES_REQUESTED: "CHANGES_REQUESTED";
+export declare const REVIEW_VERDICTS: readonly ["APPROVED", "CHANGES_REQUESTED"];
+export type ReviewVerdictState = typeof REVIEW_VERDICTS[number];
+export declare const TOKEN_REVIEW_STATUS: "REVIEW_STATUS";
+export declare const TOKEN_REVIEW_SUMMARY: "REVIEW_SUMMARY";
+export declare const TOKEN_UNFULFILLED_AC: "UNFULFILLED_AC";
+export declare const TOKEN_REMEDIATION_GUIDANCE: "REMEDIATION_GUIDANCE";
+export declare const REGEX_REVIEW_STATUS_TOKEN: RegExp;
+export declare const REGEX_REVIEW_SUMMARY_TOKEN: RegExp;
+export declare const REGEX_UNFULFILLED_AC_TOKEN: RegExp;
+export declare const REGEX_REMEDIATION_GUIDANCE_TOKEN: RegExp;
+export declare const HEADER_REVIEW_VERDICT_REPORT: "=== Critique: Review Verdict Report ===";
+export declare const LABEL_REVIEW_STATUS: "Review Status";
+export declare const LABEL_REVIEW_SUMMARY: "Review Summary";
+export declare const LABEL_UNFULFILLED_AC: "Unfulfilled Acceptance Criteria";
+export declare const LABEL_REMEDIATION_GUIDANCE: "Remediation Guidance";
+export declare const SECTION_REVIEW_SELF_CORRECTION_TITLE: "### Critique Reviewer Self-Correction Remediation Guidance:";
+export declare const RESOLVER_SOURCE_BUNDLED: "bundled";
+export declare const RESOLVER_SOURCE_USER_LOCAL: "user_local";
+export declare const RESOLVER_SOURCE_SYSTEM_PATH: "system_path";
+export declare const RESOLVER_SOURCE_NONE: "none";
+export declare const RESOLVER_SOURCES: readonly ["bundled", "user_local", "system_path", "none"];
+export type ResolverSource = typeof RESOLVER_SOURCES[number];
+export declare const ENV_VAR_GEMINI_API_KEY: "GEMINI_API_KEY";
+export declare const ENV_VAR_GITHUB_TOKEN: "GITHUB_TOKEN";
+export declare const ENV_FILE_NAME: ".env";
+export declare const PATH_BUNDLED_CRITIQUE_JS: "bin/critique.js";
+export declare const PATH_USER_LOCAL_CRITIQUE: ".local/bin/critique";
+export declare const PATH_USER_LOCAL_LEGACY: ".local/bin/ai-reviewer";
+export declare const REGEX_ENV_KEY_VAL: RegExp;
+export declare const REGEX_JSON_CODE_BLOCK: RegExp;
+export declare const REGEX_WORKFLOW_PROMPT: RegExp;
+export declare const REGEX_SEVERITY: RegExp;
+export declare const REGEX_CONFIDENCE: RegExp;
+export declare const CRITIQUE_VERSION: "0.1.0";
+export declare const EXIT_CODE_SUCCESS: 0;
+export declare const EXIT_CODE_FAILURE: 1;
+export declare const BANNER_REVIEW_TITLE: "# \uD83E\uDD16 Critique: AI Code Review";
+export declare const BANNER_CODE_COMMENTS: "## \uD83D\uDCDD Code Comments";
+export declare const BANNER_SUMMARY: "## Summary";
+export declare const MSG_NO_DIFF_FOUND: "No diff found. Exiting.";
+export declare const MSG_CLEAN_DIFF_REVIEW: "No uncommitted changes or working tree diff found.";
+export declare const MSG_NO_ISSUES_FOUND: "*No issues found! Great job!* \uD83D\uDE80";
+export declare const MSG_MISSING_API_KEY: "Error: GEMINI_API_KEY is not set.\nPlease ensure it is set in ~/.env, .env, or in your environment variables.";
+export declare const MSG_ALL_MODELS_FAILED: "All candidate Gemini models failed.";
+export declare const DEFAULT_NO_UNRESOLVED_THREADS_TEXT: "No unresolved previous issues.";
+export declare const AI_SUMMARY_START_MARKER: "<!-- AI_SUMMARY_START -->";
+export declare const AI_SUMMARY_END_MARKER: "<!-- AI_SUMMARY_END -->";
+export declare const AI_SUGGESTION_PREFIX: "\uD83E\uDD16 **Critique AI Suggestion**";
+export declare const DEFAULT_CRITIQUE_SYSTEM_INSTRUCTION: "You are Critique, an expert senior software engineer and quality gatekeeper conducting a code review.\n\nContext & Review Standards:\n- You MUST carefully review the code changes in the diff.\n- Verify adherence to repository standards and architectural patterns.\n- Ensure you provide inline comments for any logic flaws, security vulnerabilities, performance regressions, or incorrect API usage.\n- Categorize comment severity strictly as \"critical\", \"error\", \"warning\", \"suggestion\", or \"info\".\n- Any \"critical\" or \"error\" comment indicates a blocking issue.\n- Avoid nitpicks on unchanged code.\n\nYou must respond with a SINGLE JSON object with the following structure:\n{\n  \"summary\": \"A markdown string containing a high-level summary of the changes and a bullet-pointed changelog.\",\n  \"confidenceLevel\": \"High | Medium | Low\",\n  \"confidenceExplanation\": \"Why this confidence level was chosen based on code complexity, completeness, and diff size.\",\n  \"resolvedThreads\": [\"threadId1\", \"threadId2\"],\n  \"comments\": [\n    {\n      \"path\": \"path/to/file.ts\",\n      \"line\": 15,\n      \"severity\": \"critical | error | warning | suggestion | info\",\n      \"body\": \"Detailed review finding and actionable recommendation...\"\n    }\n  ]\n}";

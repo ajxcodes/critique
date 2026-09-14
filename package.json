@@ -1,0 +1,57 @@
+{
+  "name": "critique",
+  "version": "0.1.0",
+  "description": "Standalone AI Code Reviewer & PR Quality Gatekeeper for CLI and GitHub Actions",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "critique": "./bin/critique.js"
+  },
+  "scripts": {
+    "build": "tsc && npm run bundle",
+    "bundle": "node bundle.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepack": "npm run build"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "Alvin Jorrel Pascual <me@ajx.codes> (https://github.com/ajxcodes)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajxcodes/critique.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ajxcodes/critique/issues"
+  },
+  "homepage": "https://github.com/ajxcodes/critique#readme",
+  "keywords": [
+    "critique",
+    "ai-reviewer",
+    "code-review",
+    "gemini",
+    "github-action",
+    "pr-reviewer",
+    "pull-request",
+    "antigravity",
+    "developer-tools"
+  ],
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.9",
+    "@typescript-eslint/eslint-plugin": "^8.26.0",
+    "@typescript-eslint/parser": "^8.26.0",
+    "esbuild": "^0.25.0",
+    "eslint": "^9.21.0",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.7"
+  }
+}

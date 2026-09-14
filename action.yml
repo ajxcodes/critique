@@ -1,0 +1,54 @@
+name: 'Critique AI Code Reviewer'
+description: 'Automated AI code review using Google Gemini with model fallback cascades, standards enforcement, inline PR comments, and thread auto-resolution.'
+author: 'Alvin Jorrel Pascual <me@ajx.codes>'
+branding:
+  icon: 'check-circle'
+  color: 'blue'
+
+inputs:
+  gemini_api_key:
+    description: 'Google Gemini API key (defaults to GEMINI_API_KEY environment secret)'
+    required: false
+  github_token:
+    description: 'GitHub token for PR commenting and thread resolution (defaults to GITHUB_TOKEN)'
+    required: false
+  base_ref:
+    description: 'Base ref / branch to diff against (defaults to PR base branch)'
+    required: false
+  standards_path:
+    description: 'Optional path to repository review standards markdown file'
+    required: false
+  post_inline_comments:
+    description: 'Whether to post inline review comments for findings (true/false)'
+    required: false
+    default: 'true'
+  post_summary_comment:
+    description: 'Whether to post a review run summary comment (true/false)'
+    required: false
+    default: 'true'
+  update_pr_description:
+    description: 'Whether to update the PR description with an AI summary (true/false)'
+    required: false
+    default: 'true'
+  strict:
+    description: 'Whether to fail the action step if blocking errors exist (true/false)'
+    required: false
+    default: 'false'
+
+outputs:
+  summary:
+    description: 'High-level markdown summary of the review'
+  confidence:
+    description: 'Confidence level rating (High, Medium, Low)'
+  is_passing:
+    description: 'Whether the review passed without blocking issues and with high confidence'
+  has_blocking_issues:
+    description: 'Whether critical or error findings were detected'
+  error_count:
+    description: 'Total number of critical and error findings'
+  warning_count:
+    description: 'Total number of warning findings'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
