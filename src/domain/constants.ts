@@ -161,7 +161,20 @@ export const REGEX_SEVERITY = /^(critical|error|warning|suggestion|info)$/i;
 export const REGEX_CONFIDENCE = /^(high|medium|low)$/i;
 
 // Presentation & Output Constants
-export const CRITIQUE_VERSION = '0.1.0' as const;
+// In bundled builds, version is injected at build time from package.json via esbuild define.
+// In test/non-bundled environments (e.g. Vitest), falls back to reading package.json directly.
+declare const __CRITIQUE_VERSION__: string;
+export const CRITIQUE_VERSION: string =
+  typeof __CRITIQUE_VERSION__ !== 'undefined'
+    ? __CRITIQUE_VERSION__
+    : (() => {
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
+          return require('../../package.json').version as string;
+        } catch {
+          return 'unknown';
+        }
+      })();
 export const EXIT_CODE_SUCCESS = 0 as const;
 export const EXIT_CODE_FAILURE = 1 as const;
 

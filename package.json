@@ -17,6 +17,8 @@
     "lint:fix": "eslint . --fix",
     "link:skill": "mkdir -p ~/.gemini/config/skills && ln -sfn \"$(pwd)/skills/critique\" ~/.gemini/config/skills/critique",
     "link:plugin": "mkdir -p ~/.gemini/config/plugins && ln -sfn \"$(pwd)\" ~/.gemini/config/plugins/critique",
+    "version:sync": "node -e \"const fs=require('fs');const v=require('./package.json').version;const p=JSON.parse(fs.readFileSync('plugin.json','utf-8'));p.version=v;fs.writeFileSync('plugin.json',JSON.stringify(p,null,2)+'\\n');const r=fs.readFileSync('README.md','utf-8');fs.writeFileSync('README.md',r.replace(/ajxcodes\\/critique@v[\\d.]+/g,'ajxcodes/critique@v'+v));console.log('Synced version to v'+v);\"",
+    "postversion": "npm run version:sync && git add plugin.json README.md",
     "prepack": "npm run build"
   },
   "engines": {
