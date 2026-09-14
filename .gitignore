@@ -3,3 +3,8 @@ node_modules/
 .env
 coverage/
 .DS_Store
+
+# Antigravity Persistent Plans & Local State
+artifacts/plans/
+.agyloop/
+prompts/

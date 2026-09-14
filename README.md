@@ -1,17 +1,17 @@
 # critique
 
-> Standalone AI Code Reviewer & PR Quality Gatekeeper for local CLI and GitHub Actions.
+> Standalone AI Code Reviewer & PR Quality Gatekeeper for CLI, CI/CD, and Antigravity.
 
 [![Release](https://img.shields.io/github/v/release/ajxcodes/critique?style=flat-square)](https://github.com/ajxcodes/critique/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 
-**Critique** provides automated, intelligent code reviews powered by Google Gemini (with seamless model fallback cascades: `gemini-3.5-flash-lite` ➔ `gemini-3.5-flash` ➔ `gemini-2.5-flash` ➔ `gemini-2.5-pro` ➔ Copilot `gpt-4o`). It operates as both a local CLI tool (`critique`) and a zero-dependency native GitHub Action.
+**Critique** provides automated, intelligent code reviews powered by Google Gemini (with seamless model fallback cascades: `gemini-3.5-flash-lite` ➔ `gemini-3.5-flash` ➔ `gemini-2.5-flash` ➔ `gemini-2.5-pro` ➔ Copilot `gpt-4o`). It operates as a local CLI tool (`critique`), a zero-dependency native GitHub Action, and an autonomous Google Antigravity skill and plugin.
 
 ---
 
 ## Features
 
-- 🧠 **Dual Packaging**: Run locally via the `critique` CLI or in CI/CD via `action.yml`.
+- 🧠 **Tri-Packaging**: Run locally via the `critique` CLI, in CI/CD via `action.yml`, or in Google Antigravity as a skill/plugin.
 - 🔄 **Autonomous Model Fallback**: Gracefully cascades through Gemini models on 503/429 errors, with secondary fallback to GitHub Models API (`gpt-4o`).
 - 📋 **Standards Cascade Discovery**: Discovers project rules in deterministic priority order:
   1. `.github/critique.md`
@@ -100,9 +100,44 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           strict: false
 ```
+ 
+---
+
+## Antigravity Skill & Plugin
+
+Critique is packaged natively as an Antigravity skill and plugin, allowing autonomous agents to run quality gate reviews, inspect changes, and proactively generate conventional commit messages.
+
+### Local Installation / Linking
+
+Link Critique directly into your local Antigravity environment (`~/.gemini/config/`):
+
+```bash
+# Link as a standalone skill (~/.gemini/config/skills/critique)
+npm run link:skill
+
+# OR link as a full plugin (~/.gemini/config/plugins/critique)
+npm run link:plugin
+```
+
+### Usage in Antigravity
+
+Once linked, Antigravity agents can invoke Critique automatically or via slash commands:
+
+- **Natural Language**: Simply ask the agent:
+  - *"Run critique on my changes"*
+  - *"Review this PR using critique"*
+  - *"Check uncommitted changes with critique"*
+- **Slash Command**: Run the `/critique` command directly:
+  ```bash
+  /critique
+  /critique --staged
+  /critique --base origin/main
+  /critique --pr 42
+  ```
 
 ---
 
 ## License
 
 MIT © [Alvin Jorrel Pascual](https://github.com/ajxcodes)
+

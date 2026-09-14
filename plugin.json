@@ -1,0 +1,32 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "critique",
+  "version": "0.1.0",
+  "description": "Standalone AI Code Reviewer & PR Quality Gatekeeper for CLI, CI/CD, and Antigravity",
+  "author": {
+    "name": "Alvin Jorrel Pascual",
+    "email": "me@ajx.codes",
+    "url": "https://github.com/ajxcodes"
+  },
+  "repository": "https://github.com/ajxcodes/critique",
+  "license": "MIT",
+  "keywords": [
+    "critique",
+    "ai-reviewer",
+    "code-review",
+    "gemini",
+    "antigravity",
+    "skill",
+    "plugin"
+  ],
+  "engines": {
+    "antigravity": ">=2.0.0"
+  },
+  "commands": {
+    "critique": {
+      "name": "critique",
+      "description": "Run AI code review on uncommitted or pull request changes",
+      "usage": "/critique [--staged] [--base <ref>] [--pr <num>] [--json] [--strict]"
+    }
+  }
+}
