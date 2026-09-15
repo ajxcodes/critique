@@ -169,7 +169,6 @@ export const CRITIQUE_VERSION: string =
     ? __CRITIQUE_VERSION__
     : (() => {
         try {
-          // eslint-disable-next-line @typescript-eslint/no-require-imports
           return require('../../package.json').version as string;
         } catch {
           return 'unknown';

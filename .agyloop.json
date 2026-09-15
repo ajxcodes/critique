@@ -1,0 +1,9 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/agyloop.json",
+  "options": {
+    "gateCommands": [
+      "npm run typecheck",
+      "npm test"
+    ]
+  }
+}
