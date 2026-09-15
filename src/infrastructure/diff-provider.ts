@@ -18,7 +18,7 @@ export interface DiffProviderOptions {
   readonly commitRange?: string;
 }
 
-const EXCLUDE_FLAGS = "':(exclude)*.lock' ':(exclude)*-lock.json' ':(exclude)*.lockb' ':(exclude)*.png' ':(exclude)*.jpg' ':(exclude)*.svg' ':(exclude)*.jar' ':(exclude)*.bin'";
+const EXCLUDE_FLAGS = "':(exclude)*.lock' ':(exclude)*-lock.json' ':(exclude)*.lockb' ':(exclude)*.png' ':(exclude)*.jpg' ':(exclude)*.svg' ':(exclude)*.jar' ':(exclude)*.bin' ':(exclude)*.map'";
 
 export class DiffProvider {
   private readonly executor: CommandExecutorPort;

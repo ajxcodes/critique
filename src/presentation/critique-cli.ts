@@ -152,7 +152,7 @@ export async function runCritiqueCli(argv: string[] = process.argv): Promise<num
   }
 }
 
-if (require.main === module) {
+if (require.main === module && process.env.GITHUB_ACTIONS !== 'true') {
   runCritiqueCli().then((code) => {
     if (code !== 0) {
       process.exit(code);

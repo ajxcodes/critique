@@ -101,6 +101,30 @@ jobs:
           strict: false
 ```
  
+### Local CI Testing with `act`
+
+You can test GitHub Actions CI workflows locally using [`act`](https://github.com/nektos/act):
+
+#### Docker (standard)
+
+```bash
+act push --job test
+```
+
+#### Podman (rootless)
+
+Start the rootless Podman socket first, then point `act` to it via `DOCKER_HOST`:
+
+```bash
+# Start the rootless Podman socket (one-time per session)
+systemctl --user start podman.socket
+
+# Run the test job using the Podman socket
+DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock act push --job test
+```
+
+> **Tip:** Export `DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock` in your shell profile so `act` automatically connects to Podman.
+
 ---
 
 ## Antigravity Skill & Plugin

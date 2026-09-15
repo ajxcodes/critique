@@ -1,0 +1,44 @@
+name: Critique AI Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  pull-requests: write
+  issues: write
+  contents: write # Needed for GraphQL thread resolution
+
+jobs:
+  review:
+    name: Critique Reviewer
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies & build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Run Critique Reviewer
+        run: node dist/index.js
+        env:
+          INPUT_GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_STRICT: 'false'
+          INPUT_UPDATE_PR_DESCRIPTION: 'true'
+          INPUT_POST_INLINE_COMMENTS: 'true'
+          INPUT_POST_SUMMARY_COMMENT: 'true'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}

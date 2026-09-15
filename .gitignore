@@ -4,6 +4,10 @@ node_modules/
 coverage/
 .DS_Store
 
+# Build Artifacts
+dist/
+bin/
+
 # Antigravity Persistent Plans & Local State
 artifacts/plans/
 .agyloop/
