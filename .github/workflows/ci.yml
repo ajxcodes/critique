@@ -60,7 +60,7 @@ jobs:
           node-version: 20
           cache: 'npm'
       - name: Run Auto-Tag
-        uses: ajxcodes/auto-tag@v1
+        uses: ajxcodes/auto-tag@35a02a21bbe956d8fbf38602d901f3c5a4474625 # v1
         with:
           github-token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
           default-bump: patch
