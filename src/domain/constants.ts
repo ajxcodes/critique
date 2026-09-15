@@ -31,7 +31,7 @@ export const AI_REVIEWER_DEFAULT_MIME_TYPE = 'application/json' as const;
 export const AI_REVIEWER_DEFAULT_TIMEOUT_MS = 60000 as const;
 export const AI_REVIEWER_RETRY_DELAY_MS = 2000 as const;
 export const AI_REVIEWER_MAX_DIFF_CHARS = 120000 as const;
-export const AI_REVIEWER_MAX_PR_DIFF_CHARS = 3000000 as const;
+export const AI_REVIEWER_MAX_PR_DIFF_CHARS = 250000 as const;
 
 // HTTP Status Codes
 export const HTTP_STATUS_OK = 200 as const;

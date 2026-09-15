@@ -19,7 +19,7 @@ jobs:
       - name: Run actionlint
         uses: rhysd/actionlint@v1.7.12
         with:
-          files: action.yml
+          args: action.yml
 
   typecheck:
     name: Typecheck
