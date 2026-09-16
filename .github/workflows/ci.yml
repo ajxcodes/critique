@@ -50,6 +50,9 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
       contents: write
+    outputs:
+      bumped: ${{ steps.auto-tag.outputs.bumped }}
+      new-tag: ${{ steps.auto-tag.outputs.new-tag }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -60,8 +63,61 @@ jobs:
           node-version: 20
           cache: 'npm'
       - name: Run Auto-Tag
+        id: auto-tag
         uses: ajxcodes/auto-tag@35a02a21bbe956d8fbf38602d901f3c5a4474625 # v1
         with:
           github-token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
           default-bump: patch
           create-release: 'false'
+
+  release:
+    name: Build & Release
+    runs-on: ubuntu-latest
+    needs: [tag]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.tag.outputs.bumped == 'true'
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build critique
+        run: npm run build
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ needs.tag.outputs.new-tag }}" bin/critique.js \
+            --title "${{ needs.tag.outputs.new-tag }}" \
+            --generate-notes
+
+      - name: Update Floating Tags (Latest, Minor, Major)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REF="${{ needs.tag.outputs.new-tag }}"
+          MAJOR_TAG=$(echo "$REF" | cut -d. -f1)
+          MINOR_TAG=$(echo "$REF" | cut -d. -f1,2)
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Update floating tags
+          git tag -f "$MAJOR_TAG" "$REF"
+          git tag -f "$MINOR_TAG" "$REF"
+          git tag -f "latest" "$REF"
+
+          # Push floating tags to origin
+          git push -f origin "$MAJOR_TAG" "$MINOR_TAG" "latest"
