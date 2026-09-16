@@ -1,8 +1,10 @@
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect, vi } from 'vitest';
 import {
   parseCliArguments,
-  printHelp
+  printHelp,
+  runCritiqueCli
 } from '../../src/presentation/critique-cli';
+import { CRITIQUE_VERSION } from '../../src/domain/constants';
 
 describe('Critique CLI Argument Parsing', () => {
   test('parses default empty arguments', () => {
@@ -79,5 +81,21 @@ describe('Critique CLI Argument Parsing', () => {
 
   test('printHelp executes without throwing', () => {
     expect(() => printHelp()).not.toThrow();
+  });
+
+  test('runCritiqueCli prints version and exits successfully with --version or -v', async () => {
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+
+    const exitCodeLong = await runCritiqueCli(['node', 'critique', '--version']);
+    expect(exitCodeLong).toBe(0);
+    expect(logSpy).toHaveBeenCalledWith(`critique v${CRITIQUE_VERSION}`);
+
+    logSpy.mockClear();
+
+    const exitCodeShort = await runCritiqueCli(['node', 'critique', '-v']);
+    expect(exitCodeShort).toBe(0);
+    expect(logSpy).toHaveBeenCalledWith(`critique v${CRITIQUE_VERSION}`);
+
+    logSpy.mockRestore();
   });
 });
