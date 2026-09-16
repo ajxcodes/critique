@@ -94,7 +94,7 @@ jobs:
           fetch-depth: 0
 
       - name: Run Critique Reviewer
-        uses: ajxcodes/critique@v0.1.5
+        uses: ajxcodes/critique@v0.1.6
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
