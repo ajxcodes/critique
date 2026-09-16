@@ -1,6 +1,6 @@
 {
   "name": "critique",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Standalone AI Code Reviewer & PR Quality Gatekeeper for CLI and GitHub Actions",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

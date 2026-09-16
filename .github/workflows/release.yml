@@ -37,10 +37,21 @@ jobs:
             --title "${{ github.ref_name }}" \
             --generate-notes
 
-      - name: Update Floating Major Tag
+      - name: Update Floating Tags (Latest, Minor, Major)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          MAJOR_TAG=$(echo "${{ github.ref_name }}" | cut -d. -f1)
+          REF="${{ github.ref_name }}"
+          MAJOR_TAG=$(echo "$REF" | cut -d. -f1)
+          MINOR_TAG=$(echo "$REF" | cut -d. -f1,2)
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git tag -f "$MAJOR_TAG" "${{ github.ref_name }}"
-          git push -f origin "$MAJOR_TAG"
+
+          # Update floating tags
+          git tag -f "$MAJOR_TAG" "$REF"
+          git tag -f "$MINOR_TAG" "$REF"
+          git tag -f "latest" "$REF"
+
+          # Push floating tags to origin
+          git push -f origin "$MAJOR_TAG" "$MINOR_TAG" "latest"
