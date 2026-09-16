@@ -56,6 +56,12 @@ export async function runGitHubAction(): Promise<void> {
 
     if (!diffText || !diffText.trim()) {
       core.info('No changes detected in diff. Skipping review.');
+      core.setOutput('summary', 'No changes detected in diff. Review skipped.');
+      core.setOutput('confidence', 'High');
+      core.setOutput('is_passing', 'true');
+      core.setOutput('has_blocking_issues', 'false');
+      core.setOutput('error_count', '0');
+      core.setOutput('warning_count', '0');
       return;
     }
 
