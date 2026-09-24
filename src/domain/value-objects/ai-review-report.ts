@@ -100,6 +100,10 @@ export class AiReviewReport {
     return this.findings.length > 0;
   }
 
+  public criticalCount(): number {
+    return this.findings.filter((finding) => finding.isCritical()).length;
+  }
+
   public errorCount(): number {
     return this.findings.filter((f) => f.isError()).length;
   }
