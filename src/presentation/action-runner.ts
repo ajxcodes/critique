@@ -212,8 +212,12 @@ ${outstandingText}
       }
 
       if (failed) {
+        const breakdown =
+          failOnSeverityInput === FAIL_ON_SEVERITY_WARNING && report.errorCount() > 0
+            ? ` (${report.errorCount()} error(s), ${report.warningCount()} warning(s))`
+            : '';
         core.setFailed(
-          `Critique review failed with ${count} finding(s) meeting severity threshold '${failOnSeverityInput}'.`
+          `Critique review failed with ${count} finding(s) meeting severity threshold '${failOnSeverityInput}'${breakdown}.`
         );
       }
     }

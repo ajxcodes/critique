@@ -1,10 +1,17 @@
-import { describe, test, expect } from 'vitest';
-import { spawnSync } from 'child_process';
+import { describe, test, expect, beforeAll } from 'vitest';
+import { spawnSync, execSync } from 'child_process';
 import * as path from 'path';
+import * as fs from 'fs';
 
 describe('GitHub Action Entrypoint Integration', () => {
   const rootDir = path.resolve(__dirname, '../../');
   const distPath = path.join(rootDir, 'dist/index.js');
+
+  beforeAll(() => {
+    if (!fs.existsSync(distPath)) {
+      execSync('npm run build', { cwd: rootDir, stdio: 'inherit' });
+    }
+  });
 
   test('fails execution when required GitHub Actions environment or API key is missing', () => {
     const res = spawnSync(process.execPath, [distPath], {
@@ -19,7 +26,6 @@ describe('GitHub Action Entrypoint Integration', () => {
       encoding: 'utf-8'
     });
 
-    // In GitHub Actions environment without key, it emits warning marker
     expect(res.stdout).toContain('::warning::');
     expect(res.status).toBe(0);
   });

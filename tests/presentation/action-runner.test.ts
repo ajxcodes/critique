@@ -152,6 +152,22 @@ describe('runGitHubAction', () => {
     );
   });
 
+  test('fail_on_severity: "warning" includes breakdown when both errors and warnings exist', async () => {
+    inputs['gemini_api_key'] = 'fake-key';
+    inputs['fail_on_severity'] = 'warning';
+
+    setupGeminiResponse([
+      { path: 'src/index.ts', line: 10, severity: 'warning', body: 'Consider renaming' },
+      { path: 'src/service.ts', line: 20, severity: 'error', body: 'Missing check' }
+    ]);
+
+    await runGitHubAction();
+
+    expect(core.setFailed).toHaveBeenCalledWith(
+      "Critique review failed with 2 finding(s) meeting severity threshold 'warning' (1 error(s), 1 warning(s))."
+    );
+  });
+
   test('fail_on_severity: "none" passes even with critical/error findings', async () => {
     inputs['gemini_api_key'] = 'fake-key';
     inputs['fail_on_severity'] = 'none';
