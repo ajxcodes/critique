@@ -78,6 +78,13 @@ export const REVIEW_SEVERITIES = Object.freeze([
 
 export type ReviewSeverity = typeof REVIEW_SEVERITIES[number];
 
+// Action Runner Failure Thresholds
+export const FAIL_ON_SEVERITY_CRITICAL = 'critical';
+export const FAIL_ON_SEVERITY_ERROR = 'error';
+export const FAIL_ON_SEVERITY_WARNING = 'warning';
+export const FAIL_ON_SEVERITY_NONE = 'none';
+export const DEFAULT_FAIL_ON_SEVERITY = FAIL_ON_SEVERITY_ERROR;
+
 // Severity Icons & Headers
 export const SEVERITY_ICON_CRITICAL = '🔴' as const;
 export const SEVERITY_ICON_ERROR = '🔴' as const;

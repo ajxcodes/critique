@@ -31,9 +31,13 @@ inputs:
     required: false
     default: 'true'
   strict:
-    description: 'Whether to fail the action step if blocking errors exist (true/false)'
+    description: 'Whether to fail the action step if blocking errors (critical or error) exist (true/false)'
     required: false
     default: 'false'
+  fail_on_severity:
+    description: 'Minimum finding severity that fails the action step (critical, error, warning, none)'
+    required: false
+    default: 'error'
 
 outputs:
   summary:
@@ -83,6 +87,7 @@ runs:
         INPUT_POST_SUMMARY_COMMENT: ${{ inputs.post_summary_comment }}
         INPUT_UPDATE_PR_DESCRIPTION: ${{ inputs.update_pr_description }}
         INPUT_STRICT: ${{ inputs.strict }}
+        INPUT_FAIL_ON_SEVERITY: ${{ inputs.fail_on_severity }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
       run: |
         node "${{ github.action_path }}/dist/index.js"

@@ -194,6 +194,7 @@ Hope this helps!`;
     });
 
     expect(report.hasBlockingIssues()).toBe(true);
+    expect(report.criticalCount()).toBe(1);
     expect(report.errorCount()).toBe(1);
     expect(report.isPassing()).toBe(false);
   });

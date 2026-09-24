@@ -20,7 +20,12 @@ import { buildCritiquePrompt } from '../application/run-critique';
 import { AiReviewReport } from '../domain/value-objects/ai-review-report';
 import {
   AI_REVIEWER_MAX_PR_DIFF_CHARS,
-  MSG_MISSING_API_KEY
+  MSG_MISSING_API_KEY,
+  FAIL_ON_SEVERITY_CRITICAL,
+  FAIL_ON_SEVERITY_ERROR,
+  FAIL_ON_SEVERITY_WARNING,
+  FAIL_ON_SEVERITY_NONE,
+  DEFAULT_FAIL_ON_SEVERITY
 } from '../domain/constants';
 
 export async function runGitHubAction(): Promise<void> {
@@ -33,6 +38,7 @@ export async function runGitHubAction(): Promise<void> {
     const postSummaryComment = core.getInput('post_summary_comment') !== 'false';
     const updatePrDescription = core.getInput('update_pr_description') !== 'false';
     const strict = core.getInput('strict') === 'true';
+    const failOnSeverityInput = (core.getInput('fail_on_severity') || DEFAULT_FAIL_ON_SEVERITY).trim().toLowerCase();
 
     const apiKey = geminiKeyInput || resolveGeminiApiKey();
     if (!apiKey) {
@@ -179,6 +185,37 @@ ${outstandingText}
 
     if (strict && report.hasBlockingIssues()) {
       core.setFailed(`Critique review failed with ${report.errorCount()} blocking error(s).`);
+    } else {
+      let failed = false;
+      let count = 0;
+
+      switch (failOnSeverityInput) {
+        case FAIL_ON_SEVERITY_CRITICAL:
+          count = report.criticalCount();
+          failed = count > 0;
+          break;
+        case FAIL_ON_SEVERITY_ERROR:
+          count = report.errorCount();
+          failed = count > 0;
+          break;
+        case FAIL_ON_SEVERITY_WARNING:
+          count = report.errorCount() + report.warningCount();
+          failed = count > 0;
+          break;
+        case FAIL_ON_SEVERITY_NONE:
+          failed = false;
+          break;
+        default:
+          count = report.errorCount();
+          failed = count > 0;
+          break;
+      }
+
+      if (failed) {
+        core.setFailed(
+          `Critique review failed with ${count} finding(s) meeting severity threshold '${failOnSeverityInput}'.`
+        );
+      }
     }
   } catch (error) {
     core.setFailed(`Critique action failed: ${error instanceof Error ? error.message : String(error)}`);
